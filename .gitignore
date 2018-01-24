@@ -1,0 +1,10 @@
+# Ideas
+.vscode
+.idea
+
+# Libs
+node_modules/
+build/
+
+# Environments
+config/environment/
