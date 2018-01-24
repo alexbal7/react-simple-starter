@@ -5,7 +5,7 @@ module.exports = {
   entry: {
     polyfills: helper.root('src', 'polyfills.js'),
     vendor: helper.root('src', 'vendor.js'),
-    app: helper.root('src', 'main.js')
+    app: ['babel-polyfill', 'react-hot-loader/patch', helper.root('src', 'main.js')]
   },
 
   resolve: {
