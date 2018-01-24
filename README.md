@@ -10,9 +10,10 @@ Starter include:
 * etc 
 
 Future plans:
-* React Hot Reload support (webpack hot modules for fast reloads)
+* ~~React Hot Reload support (webpack hot modules for fast reloads)~~
 * React application pre-defined structure (core, features, modules, etc)
 * React templates (?)
+* React Router
 
 # Usage
 First of all, run
