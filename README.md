@@ -7,13 +7,13 @@ Starter include:
 * ESLint
 * Babel
 * Polyfills (even for IE8)
-* etc 
+* etc
 
 Future plans:
 * ~~React Hot Reload support (webpack hot modules for fast reloads)~~
 * React application pre-defined structure (core, features, modules, etc)
 * React templates (?)
-* React Router
+* ~~React Router~~
 
 # Usage
 First of all, run
