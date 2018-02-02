@@ -2,6 +2,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { AppContainer } from 'react-hot-loader'
 
 // Reset and optimize default browser styles
@@ -13,7 +14,9 @@ import App from './app/App';
 const render = Component => {
   ReactDOM.render(
     <AppContainer>
-      <Component />
+      <Router>
+        <Component />
+      </Router>
     </AppContainer>,
     document.getElementById('app-root')
   )
