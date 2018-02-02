@@ -145,6 +145,7 @@ module.exports = webpackMerge(commonConfig, {
     }),
 
     new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(ENV),
       'ENV': JSON.stringify(ENV),
       'API': JSON.stringify(CONFIG.API),
       'API_PORT': JSON.stringify(CONFIG.API_PORT),
