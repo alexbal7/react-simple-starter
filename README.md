@@ -11,7 +11,7 @@ Starter include:
 
 Future plans:
 * ~~React Hot Reload support (webpack hot modules for fast reloads)~~
-* React application pre-defined structure (core, features, modules, etc)
+* ~~React application pre-defined structure (core, features, modules, etc)~~
 * React templates (?)
 * ~~React Router~~
 
