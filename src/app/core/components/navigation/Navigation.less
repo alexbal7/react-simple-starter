@@ -1,0 +1,19 @@
+.Nav-List {
+  display: block;
+  margin-bottom: 0;
+  & > .Nav-List-Item {
+    display: inline-block;
+    cursor: pointer;
+    margin: 0 20px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    & > a {
+      color: inherit;
+      text-decoration: none;
+      padding-bottom: 15px;
+    }
+    & > a.active {
+      border-bottom: 3px solid whitesmoke;
+    }
+  }
+}

@@ -1,0 +1,26 @@
+.Container {
+  width: 100%;
+  padding: 20px;
+  text-align: center;
+  color: white;
+  background-color: #222;
+  .Logo {
+    height: 80px;
+    animation: Logo-spin infinite 20s linear;
+    &.no-animation {
+      animation-play-state: paused;
+    }
+  }
+  .Title {
+    font-size: 1.5em;
+  }
+}
+
+@keyframes Logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
