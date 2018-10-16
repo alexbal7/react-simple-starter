@@ -2,7 +2,6 @@ const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
 const commonConfig = require('./webpack.common');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-
 const autoprefixer = require('autoprefixer');
 
 const environment = require('../environment/env.dev');
@@ -12,8 +11,23 @@ const helper = require('./root.helper');
 const ENV = process.env.ENV = process.env.NODE_ENV = 'development';
 const CONFIG = environment.DEV_ENV;
 
+const POST_CSS_LOADER = {
+  loader: 'postcss-loader',
+  options: {
+    ident: 'postcss',
+    plugins: () => [
+      require('postcss-flexbugs-fixes'),
+      autoprefixer({
+        browsers: ['>1%', 'last 4 versions', 'Firefox ESR', 'not ie < 9'],
+        flexbox: 'no-2009',
+      })
+    ]
+  }
+};
+
 module.exports = webpackMerge(commonConfig, {
   devtool: 'cheap-module-source-map',
+  mode: 'development',
 
   output: {
     path: helper.root('build'),
@@ -25,65 +39,23 @@ module.exports = webpackMerge(commonConfig, {
     rules: [
       {
         test: /\.(js|jsx|mjs)$/,
-        enforce: 'pre',
         exclude: helper.root('node_modules'),
-        use: ['eslint-loader']
-      },
-      {
-        test: /\.(js|jsx|mjs)$/,
-        exclude: helper.root('node_modules'),
-        use: [{
+        use: {
           loader: 'babel-loader',
           options: {
             cacheDirectory: true
           }
-        }]
+        }
       },
       {
         test: /\.css$/,
         include: helper.root('src'),
-        use: ['style-loader', 'css-loader',
-          {
-            loader: 'postcss-loader',
-            options: {
-              ident: 'postcss',
-              plugins: () => [
-                require('postcss-flexbugs-fixes'),
-                autoprefixer({
-                  browsers: ['>1%', 'last 4 versions', 'Firefox ESR', 'not ie < 9'],
-                  flexbox: 'no-2009',
-                })
-              ]
-            }
-          }
-        ]
+        use: ['style-loader', 'css-loader', POST_CSS_LOADER]
       },
       {
         test: /\.less$/,
         include: helper.root('src'),
-        use: ['style-loader', 'css-loader', 'less-loader',
-          {
-            loader: 'postcss-loader',
-            options: {
-              ident: 'postcss',
-              plugins: () => [
-                require('postcss-flexbugs-fixes'),
-                autoprefixer({
-                  browsers: ['>1%', 'last 4 versions', 'Firefox ESR', 'not ie < 9'],
-                  flexbox: 'no-2009',
-                })
-              ]
-            }
-          }
-        ]
-      },
-      {
-        test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
-        use: 'file-loader?name=assets/[name].[hash].[ext]'
-      },
-      {
-        test: /\.json$/,
-        use: 'json-loader'
+        use: ['style-loader', 'css-loader', 'less-loader', POST_CSS_LOADER]
       }
     ]
   },

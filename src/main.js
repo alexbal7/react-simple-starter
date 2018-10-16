@@ -1,4 +1,5 @@
-'use strict';
+import 'polyfills';
+import 'vendor';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
