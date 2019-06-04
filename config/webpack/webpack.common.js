@@ -3,7 +3,7 @@ const helper = require('./root.helper');
 
 module.exports = {
   entry: {
-    app: ['@babel/polyfill', 'react-hot-loader/patch', helper.root('src', 'main.js')]
+    app: ['react-hot-loader/patch', helper.root('src', 'main.js')]
   },
 
   resolve: {
