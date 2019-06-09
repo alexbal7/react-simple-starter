@@ -1,7 +1,22 @@
 const webpack = require('webpack');
 const helper = require('./root.helper');
+const autoprefixer = require('autoprefixer');
 
-module.exports = {
+exports.postCssLoader = {
+  loader: 'postcss-loader',
+  options: {
+    ident: 'postcss',
+    plugins: () => [
+      require('postcss-flexbugs-fixes'),
+      autoprefixer({
+        browsers: ['>1%', 'last 4 versions', 'Firefox ESR', 'not ie < 9'],
+        flexbox: 'no-2009',
+      })
+    ]
+  }
+};
+
+exports.config = {
   entry: {
     app: ['react-hot-loader/patch', helper.root('src', 'main.js')]
   },

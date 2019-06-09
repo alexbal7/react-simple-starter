@@ -1,20 +1,14 @@
 const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
-const commonConfig = require('./webpack.common');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
-const autoprefixer = require('autoprefixer');
 
-const environment = require('../environment/env.prod');
-const backend = require('../backend/requests');
+const common = require('./webpack.common');
 const helper = require('./root.helper');
 
-const ENV = process.env.ENV = process.env.NODE_ENV = 'production';
-const CONFIG = environment.PROD_ENV;
-
-const CSS_LOADER = {
+const cssLoader = {
   loader: 'css-loader',
   options: {
     importLoaders: 1,
@@ -23,21 +17,7 @@ const CSS_LOADER = {
   }
 };
 
-const POST_CSS_LOADER = {
-  loader: 'postcss-loader',
-  options: {
-    ident: 'postcss',
-    plugins: () => [
-      require('postcss-flexbugs-fixes'),
-      autoprefixer({
-        browsers: ['>1%', 'last 4 versions', 'Firefox ESR', 'not ie < 9'],
-        flexbox: 'no-2009',
-      })
-    ]
-  }
-};
-
-module.exports = webpackMerge(commonConfig, {
+module.exports = webpackMerge(common.config, {
   devtool: 'source-map',
   mode: 'production',
 
@@ -69,36 +49,18 @@ module.exports = webpackMerge(commonConfig, {
       {
         test: /\.css$/,
         include: helper.root('src'),
-        use: [
-          MiniCssExtractPlugin.loader,
-          CSS_LOADER,
-          POST_CSS_LOADER
-        ]
+        use: [MiniCssExtractPlugin.loader, cssLoader, common.postCssLoader]
       },
       {
         test: /\.less$/,
         include: helper.root('src', 'app'),
-        use: [
-          MiniCssExtractPlugin.loader,
-          CSS_LOADER,
-          'less-loader',
-          POST_CSS_LOADER
-        ]
+        use: [MiniCssExtractPlugin.loader, cssLoader, 'less-loader', common.postCssLoader]
       }
     ]
   },
 
   plugins: [
     new webpack.NoEmitOnErrorsPlugin(),
-
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(ENV),
-      'ENV': JSON.stringify(ENV),
-      'API': JSON.stringify(CONFIG.API),
-      'API_PORT': JSON.stringify(CONFIG.API_PORT),
-      'IDB_VERSION': JSON.stringify(CONFIG.IDB_VERSION),
-      'REQUESTS': JSON.stringify(backend.REQUESTS)
-    }),
 
     new CompressionPlugin({
       test: /\.(js|css)$/

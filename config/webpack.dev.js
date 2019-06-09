@@ -1,31 +1,10 @@
-const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
-const commonConfig = require('./webpack.common');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const autoprefixer = require('autoprefixer');
 
-const environment = require('../environment/env.dev');
-const backend = require('../backend/requests');
+const common = require('./webpack.common');
 const helper = require('./root.helper');
 
-const ENV = process.env.ENV = process.env.NODE_ENV = 'development';
-const CONFIG = environment.DEV_ENV;
-
-const POST_CSS_LOADER = {
-  loader: 'postcss-loader',
-  options: {
-    ident: 'postcss',
-    plugins: () => [
-      require('postcss-flexbugs-fixes'),
-      autoprefixer({
-        browsers: ['>1%', 'last 4 versions', 'Firefox ESR', 'not ie < 9'],
-        flexbox: 'no-2009',
-      })
-    ]
-  }
-};
-
-module.exports = webpackMerge(commonConfig, {
+module.exports = webpackMerge(common.config, {
   devtool: 'cheap-module-source-map',
   mode: 'development',
 
@@ -50,25 +29,17 @@ module.exports = webpackMerge(commonConfig, {
       {
         test: /\.css$/,
         include: helper.root('src'),
-        use: ['style-loader', 'css-loader', POST_CSS_LOADER]
+        use: ['style-loader', 'css-loader', common.postCssLoader]
       },
       {
         test: /\.less$/,
         include: helper.root('src'),
-        use: ['style-loader', 'css-loader', 'less-loader', POST_CSS_LOADER]
+        use: ['style-loader', 'css-loader', 'less-loader', common.postCssLoader]
       }
     ]
   },
 
   plugins: [
-    new webpack.DefinePlugin({
-      'ENV': JSON.stringify(ENV),
-      'API': JSON.stringify(CONFIG.API),
-      'API_PORT': JSON.stringify(CONFIG.API_PORT),
-      'IDB_VERSION': JSON.stringify(CONFIG.IDB_VERSION),
-      'REQUESTS': JSON.stringify(backend.REQUESTS)
-    }),
-
     // Plugin to automatically insert needed script/link tags to index.html
     new HtmlWebpackPlugin({
       template: helper.root('src', 'index.html'),

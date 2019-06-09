@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "description": "Sample project for react test",
   "scripts": {
-    "start": "rimraf build && webpack-dev-server --config config/webpack/webpack.dev.js --inline --progress --port 7000",
+    "start": "npm run clean && webpack-dev-server --config config/webpack.dev.js --inline --port 7000",
     "start:hmr": "npm run start -- --hot",
-    "build": "rimraf build && node --max_old_space_size=4096 node_modules/webpack/bin/webpack.js --config config/webpack/webpack.prod.js --progress --profile --bail"
+    "build": "npm run clean && node --max_old_space_size=4096 webpack --config config/webpack.prod.js --profile --bail",
+    "lint": "eslint .",
+    "clean": "rimraf build"
   },
   "author": "",
   "license": "ISC",
